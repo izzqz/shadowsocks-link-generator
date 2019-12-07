@@ -5,7 +5,13 @@
   "scripts": {
     "test": "echo -e \"\\e[31mError: no test specified\\e[0m\\n\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "shadoworks",
+    "URL",
+    "generator",
+    "parser",
+    "link"
+  ],
   "author": "ZZQ",
   "dependencies": {},
   "devDependencies": {},
@@ -17,5 +23,6 @@
     "url": "https://github.com/DrZZQ/shadowsocks-link-generator/issues"
   },
   "homepage": "https://github.com/DrZZQ/shadowsocks-link-generator#readme",
-  "description": "Ligthweight module for generating and parsing shadoworks links. No dependencies."
+  "description": "Ligthweight module for generating and parsing shadoworks links. No dependencies.",
+  "license": "MIT"
 }
