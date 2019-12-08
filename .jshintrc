@@ -1,0 +1,9 @@
+{
+    "unused"        : true,
+    "strict"        : true,
+    "asi"           : true,
+    "devel"         : true,
+    "node"          : true,
+    "browser"       : true,
+    "esversion"     : 6
+}

@@ -3,7 +3,8 @@
   "version": "1.1.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo -e \"\\e[31mError: no test specified\\e[0m\\n\" && exit 1"
+    "test": "echo -e \"\\e[31mError: no test specified\\e[0m\\n\" && exit 1",
+    "lint": "npx jshint . --exclude node_modules && echo -e \"\\033[0;32mAll clear\\e[0m\""
   },
   "keywords": [
     "shadoworks",
