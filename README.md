@@ -100,7 +100,7 @@ console.log(myUrlParsed)
 You can use this module like a parent class. To use this methods in your class.
 
 ```js
-const SsUrlMethods = require('./index')
+const SsUrlMethods = require('shadowsocks-link-generator')
 
 class Something extends SsUrlMethods {
   // blah blah blah...
