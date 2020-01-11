@@ -35,13 +35,11 @@ class Base64 {
 
 const base64 = new Base64()
 
-class SsLink {
+export default class SsLink {
   static genSS(config) {
     const c = config
-    // METHOD:PASSWORD@HOSTNAME:PORT#NAME
-    const URI = `${base64.encode(`${c.method}:${c.password}`)}@${c.server}:${c.server_port}#${encodeURI(c.name)}`
-    const URL = 'ss://' + URI
-    return URL
+    // METHOD:PASSWORD@HOSTNAME:PORT?#NAME
+    return `ss://${base64.encode(`${c.method}:${c.password}`)}@${c.server}:${c.server_port}#${encodeURI(c.name)}`
   }
 
   static genSSR(config) {
@@ -57,12 +55,35 @@ class SsLink {
 
     if (link.startsWith('ss://')) {
       const URI = link.replace('ss://', '').split('@')
+      const params = new URLSearchParams(URI[1].split('?')[1])
 
-      parseInfo.method/*------*/= base64.decode(URI[0]).split(':')[0]
-      parseInfo.password/*----*/= base64.decode(URI[0]).split(':')[1]
-      parseInfo.server/*------*/= URI[1].split('#')[0].split(':')[0]
-      parseInfo.server_port/*-*/= URI[1].split('#')[0].split(':')[1]
-      parseInfo.name/*--------*/= decodeURI(URI[1].split('#')[1])
+      parseInfo.method/*---------*/= base64
+          .decode(URI[0])
+          .split(':')[0]
+
+      parseInfo.password/*-------*/= base64
+          .decode(URI[0])
+          .split(':')[1]
+
+      parseInfo.server/*---------*/= URI[1]
+          .split('#')[0]
+          .split(':')[0]
+
+      parseInfo.server_port/*----*/= URI[1]
+          .split('#')[0]
+          .split(':')[1]
+          .split('?')[0]
+
+      parseInfo.name/*-----------*/= decodeURI(URI[1].split('#')[1])
+
+      parseInfo.plugin/*---------*/= params.get('plugin')
+          .split(';')[0]
+
+      parseInfo.plugin_param/*---*/= params.get('plugin')
+          .split(';')
+          .filter(e => e !== parseInfo.plugin)
+          .join(';')
+          .split('#')[0]
 
     } else if (link.startsWith('ssr://')) {
       const URI = base64.decode(link.replace('ssr://', '')).split(':')
@@ -87,4 +108,6 @@ class SsLink {
   // TODO: validate Link
 }
 
-module.exports = SsLink
+// DEBUG:
+const parsedLink = SsLink.parse('ss://eGNoYWNoYTIwLWlldGYtcG9seTEzMDU6MA@sparrow.yolk.network:443?plugin=v2ray%3Bpath%3D%2Fapi%3Bloglevel%3Dnone%3Bhost%3Dsparrow.yolk.network%3Btls#Sparrow')
+console.log('Link:', parsedLink)
