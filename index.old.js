@@ -5,6 +5,8 @@ Config for ss:// style
     "server_port":8388,
     "password":"mypassword",
     "method":"aes-256-cfb",
+    "plugin": "v2ray",
+    "plugin_param": "tls"
     "name":"my server"
 }
 Config for ssr:// style
@@ -77,8 +79,8 @@ export default class SsLink {
       parseInfo.name/*-----------*/= decodeURI(URI[1].split('#')[1])
 
       parseInfo.plugin/*---------*/= params.get('plugin')
-          .split(';')[0]
-
+          // .split(';')[0]
+      console.log('Debug:', parseInfo.plugin)
       parseInfo.plugin_param/*---*/= params.get('plugin')
           .split(';')
           .filter(e => e !== parseInfo.plugin)
@@ -108,6 +110,16 @@ export default class SsLink {
   // TODO: validate Link
 }
 
-// DEBUG:
-const parsedLink = SsLink.parse('ss://eGNoYWNoYTIwLWlldGYtcG9seTEzMDU6MA@sparrow.yolk.network:443?plugin=v2ray%3Bpath%3D%2Fapi%3Bloglevel%3Dnone%3Bhost%3Dsparrow.yolk.network%3Btls#Sparrow')
-console.log('Link:', parsedLink)
+const myUrl = SsLink.genSS({
+  server: '8.8.8.8',
+  server_port: 8388,
+  password: 'mypassword',
+  method: 'aes-256-cfb',
+  plugin: 'obfs-plugin',
+  plugin_param: '',
+  name: 'Gled'
+})
+
+console.log(myUrl)
+
+console.log(SsLink.parse(myUrl))

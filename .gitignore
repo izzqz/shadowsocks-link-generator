@@ -1,1 +1,10 @@
-node_modules
+node_modules/
+build/
+.idea/.gitignore
+.idea/codeStyles/
+.idea/inspectionProfiles/
+.idea/jsLinters/
+.idea/misc.xml
+.idea/modules.xml
+.idea/shadowsocks-link-generator.iml
+.idea/vcs.xml

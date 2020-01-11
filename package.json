@@ -1,10 +1,12 @@
 {
   "name": "shadowsocks-link-generator",
   "version": "1.1.3",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo -e \"\\e[31mError: no test specified\\e[0m\\n\" && exit 1",
-    "lint": "npx jshint . --exclude node_modules && echo -e \"\\033[0;32mAll clear\\e[0m\""
+    "test": "node build/index.js",
+    "lint": "npx jshint . --exclude node_modules && echo -e \"\\033[0;32mAll clear\\e[0m\"",
+    "build": "tsc -p .",
+    "clear-build": "rm -rf build/"
   },
   "keywords": [
     "shadoworks",
@@ -15,7 +17,10 @@
   ],
   "author": "ZZQ",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^13.1.6",
+    "typescript": "^3.7.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/DrZZQ/shadowsocks-link-generator.git"
@@ -24,7 +29,6 @@
     "url": "https://github.com/DrZZQ/shadowsocks-link-generator/issues"
   },
   "homepage": "https://github.com/DrZZQ/shadowsocks-link-generator#readme",
-  "description": "Ligthweight module for generating and parsing shadoworks links. No dependencies.",
-  "license": "MIT",
-  "type": "module"
+  "description": "Ligthweight module for generating and parsing shadowsocks links. No dependencies.",
+  "license": "MIT"
 }

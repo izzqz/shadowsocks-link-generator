@@ -25,6 +25,8 @@ const myUrl = ssUrl.genSS({
   server_port: 8388,
   password: 'mypassword',
   method: 'aes-256-cfb',
+  plugin: 'obfs-plugin',
+  plugin_param: '',
   name: 'my server'
 })
 
