@@ -37,7 +37,7 @@ class Base64 {
 
 const base64 = new Base64()
 
-export default class SsLink {
+class SsLink {
   static genSS(config) {
     const c = config
     // METHOD:PASSWORD@HOSTNAME:PORT?#NAME
@@ -122,4 +122,4 @@ const myUrl = SsLink.genSS({
 
 console.log(myUrl)
 
-console.log(SsLink.parse(myUrl))
+// console.log(SsLink.parse(myUrl))

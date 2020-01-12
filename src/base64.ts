@@ -1,5 +1,5 @@
 export default class base64 {
-    static encode(string: string):string {
+   static encode(string: string):string {
         let base64String
 
         if (!string) string = ''
