@@ -1,5 +1,5 @@
 export default class base64 {
-   static encode(string: string):string {
+   static encode(string: string): string {
         let base64String
 
         if (!string) string = ''
@@ -9,7 +9,7 @@ export default class base64 {
         return base64String
     }
 
-    static decode(base64String: string):string {
+    static decode(base64String: string): string {
         let clearString
 
         if (!base64String) base64String = ''
