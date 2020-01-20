@@ -9,12 +9,12 @@ interface Ishadowsocks {
     name?: string
 }
 
-interface IssConfig extends Ishadowsocks{
+export interface IssConfig extends Ishadowsocks {
     plugin?: string,
     plugin_param?: string,
 }
 
-interface IssrConfig extends Ishadowsocks{
+interface IssrConfig extends Ishadowsocks {
     protocol: string,
     protocol_param?: string,
     obfs: string,
@@ -22,7 +22,11 @@ interface IssrConfig extends Ishadowsocks{
     group?: string
 }
 
-class SsUrl {
+interface stringMap {
+    [key: string]: string | number // Check 90 line
+}
+
+export default class SsUrl {
     static genSS(config: IssConfig): string {
 
         const settings: string = `${encode(`${config.method}:${config.password}`)}`
@@ -32,11 +36,11 @@ class SsUrl {
         let plugin: string = ''
 
         if (config.plugin) {
-            plugin = `?plugin=${config.plugin};`
+            plugin = `?plugin=${config.plugin}`
         }
 
         if (config.plugin && config.plugin_param) {
-            plugin = plugin + encodeURI(plugin + config.plugin_param)
+            plugin = plugin + encodeURIComponent(';' + config.plugin_param)
         }
 
         if (config.name) {
@@ -61,15 +65,11 @@ class SsUrl {
         return 'ssr://' + encode(URI)
     }
 
-    static parse(url: string) {
+    static parse(url: string): object {
 
         const protocol: string = new URL(url).protocol
 
-        interface IparseInfo {
-            [key: string]: string
-        }
-
-        let parseInfo: IparseInfo = {}
+        let parseInfo: stringMap = {}
 
         switch (protocol) {
             case 'ss:': //==========[SS]==========
@@ -87,10 +87,10 @@ class SsUrl {
                     .split('#')[0]
                     .split(':')[0]
 
-                parseInfo.server_port = URI[1]
+                parseInfo.server_port = Number(URI[1] // TODO: Fix server port type
                     .split('#')[0]
                     .split(':')[1]
-                    .split('?')[0]
+                    .split('?')[0])
 
 
                 const name = URI[1].split('#')[1]
@@ -102,16 +102,16 @@ class SsUrl {
                     parseInfo.plugin = params.get('plugin')
                         .split(';')[0]
 
-                    const pluginRaramEncoded: string = URI[1].split(';')[2]
+                    const pluginRaramEncoded: string = URI[1].split('?')[1]
+                        .split('#')[0]
 
                     if (pluginRaramEncoded) {
 
-                        parseInfo.plugin_param = decodeURI(pluginRaramEncoded
-                            .split('#')[0])
+                        parseInfo.plugin_param = decodeURIComponent(pluginRaramEncoded)
 
+                            // "plugin=v2ray;" <<< path=/api/;host=sparrow.yolk.network;tls
+                            .replace(`plugin=${parseInfo.plugin};`, '')
                     }
-
-                    console.log('Debug: \n', parseInfo.plugin_param,'\n')
                 }
 
                 break;
@@ -131,20 +131,20 @@ class SsUrl {
 
 //============[ TEST ]===============
 
-const myUrl = SsUrl.genSSR({
-    server: '8.8.8.8',
-    server_port: 2222,
-    password: '0',
-    method: 'chacha20',
-    name: '123123',
-    obfs: 'obfs',
-    obfs_param: 'obfs_params arstars tars ',
-    protocol: 'proto'
-})
-
-console.log('Generated url: \n', myUrl, '\n')
-
-const parsedMyUrl = SsUrl.parse(myUrl)
-
-console.log('Parsed url:', parsedMyUrl)
-// console.log(decode('SVA6ODM4ODp2ZXJpZnlfc2ltcGxlOnRhYmxlOmh0dHBfcG9zdDpNVEl6TkRVMk56ZzVNQS8_b2Jmc3BhcmFtPWIySm1jM0JoY21GdCZwcm90b3BhcmFtPWNISnZkRzl3WVhKaGJRJnJlbWFya3M9VGtGTlJRJmdyb3VwPVIxSlBWVkE'))
+// const myUrl = SsUrl.genSS({
+//     server: '8.8.8.8',
+//     server_port: 2222,
+//     password: '0',
+//     method: 'chacha20',
+//     name: '123123'
+//     // obfs: 'obfs',
+//     // obfs_param: 'obfs_params arstars tars ',
+//     // protocol: 'proto'
+// })
+//
+// console.log('Generated url: \n', myUrl, '\n')
+//
+// const parsedMyUrl = SsUrl.parse(myUrl)
+//
+// console.log('Parsed url:', parsedMyUrl)
+// // console.log(decode('SVA6ODM4ODp2ZXJpZnlfc2ltcGxlOnRhYmxlOmh0dHBfcG9zdDpNVEl6TkRVMk56ZzVNQS8_b2Jmc3BhcmFtPWIySm1jM0JoY21GdCZwcm90b3BhcmFtPWNISnZkRzl3WVhKaGJRJnJlbWFya3M9VGtGTlJRJmdyb3VwPVIxSlBWVkE'))

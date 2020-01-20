@@ -110,16 +110,6 @@ class SsLink {
   // TODO: validate Link
 }
 
-const myUrl = SsLink.genSS({
-  server: '8.8.8.8',
-  server_port: 8388,
-  password: 'mypassword',
-  method: 'aes-256-cfb',
-  plugin: 'obfs-plugin',
-  plugin_param: '',
-  name: 'Gled'
-})
 
-console.log(myUrl)
 
 // console.log(SsLink.parse(myUrl))
