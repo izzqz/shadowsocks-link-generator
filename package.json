@@ -6,7 +6,7 @@
     "test": "tsc index.spec.ts && node index.spec.js",
     "lint": "npx jshint . --exclude node_modules && echo -e \"\\033[0;32mAll clear\\e[0m\"",
     "build": "tsc -p .",
-    "clear-build": "rm -rf build/"
+    "clear-build": "rm -r index.js"
   },
   "keywords": [
     "shadoworks",

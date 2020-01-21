@@ -1,2 +1,0 @@
-add genSSR method
-add parse method

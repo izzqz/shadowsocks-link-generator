@@ -17,12 +17,11 @@
     "noUnusedLocals": true,
     "sourceMap": false,
     "inlineSourceMap": true,
-    "outDir": "build",
+    "outDir": ".",
     "strict": false,
-    "target": "es6",
-    "declaration": true,
-    "declarationDir": "build/types"
+    "target": "es5",
+    "declaration": true
   },
-  "include": ["index.ts", "src/*"],
+  "include": ["index.ts"],
   "exclude": ["node_modules"]
 }

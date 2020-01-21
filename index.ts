@@ -1,6 +1,3 @@
-import base64 from "./src/base64";
-const { encode, decode } = base64
-
 interface Ishadowsocks {
     server: string,
     server_port: number,
@@ -9,7 +6,7 @@ interface Ishadowsocks {
     name?: string
 }
 
-export interface IssConfig extends Ishadowsocks {
+interface IssConfig extends Ishadowsocks {
     plugin?: string,
     plugin_param?: string,
 }
@@ -23,8 +20,26 @@ interface IssrConfig extends Ishadowsocks {
 }
 
 interface stringMap {
-    [key: string]: string | number // Check 90 line
+    [key: string]: string | number // Check 105 line
 }
+
+class base64 {
+    static encode(string: string): string {
+        let base64String
+        if (!string) string = ''
+        base64String = Buffer.from(string).toString('base64')
+        return base64String
+    }
+
+    static decode(base64String: string): string {
+        let clearString
+        if (!base64String) base64String = ''
+        clearString = Buffer.from(base64String, 'base64').toString('utf8')
+        return clearString
+    }
+}
+
+const { encode, decode } = base64
 
 export default class SsUrl {
     static genSS(config: IssConfig): string {
