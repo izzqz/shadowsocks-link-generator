@@ -1,4 +1,4 @@
-import {URLSearchParams} from "url";
+import { URLSearchParams } from "url";
 
 interface Ishadowsocks {
     server: string,
@@ -21,8 +21,13 @@ interface IssrConfig extends Ishadowsocks {
     group?: string
 }
 
-interface stringMap {
-    [key: string]: string | number // Check 105 line
+/**
+ * FIXME
+ * TS2741: Property 'server_port' is missing in type '{}' but required in type 'stringMap'.
+ */
+type stringMap =  {
+    server_port?: number
+    [key: string]: string | number
 }
 
 class base64 {
@@ -139,7 +144,7 @@ export default class SsUrl {
                 params = new URLSearchParams(URI[5].split('/')[1])
 
                 parseInfo.server/*---------*/= URI[0]
-                parseInfo.server_port/*----*/= URI[1]
+                parseInfo.server_port/*----*/= Number(URI[1])
                 parseInfo.protocol/*-------*/= URI[2]
                 parseInfo.method/*---------*/= URI[3]
                 parseInfo.obfs/*-----------*/= decode(URI[4])
