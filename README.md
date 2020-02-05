@@ -107,7 +107,7 @@ You can import configs type using typescript
 ```typescript
 import { SsConfig, SsrConfig } from 'shadowsocks-link-generator'
 ```
-
+`name` is used in shadowsocks mobile app
 ```typescript
 type SsConfig = {
     server: string
