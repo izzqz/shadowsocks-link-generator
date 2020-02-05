@@ -1,3 +1,5 @@
+import {URLSearchParams} from "url";
+
 interface Ishadowsocks {
     server: string,
     server_port: number,
@@ -85,12 +87,14 @@ export default class SsUrl {
         const protocol: string = new URL(url).protocol
 
         let parseInfo: stringMap = {}
+        let URI: string[]
+        let params: URLSearchParams
 
         switch (protocol) {
             case 'ss:': //==========[SS]==========
 
-                const URI: string[] = url.replace('ss://', '').split('@')
-                const params: URLSearchParams = new URLSearchParams(URI[1].split('?')[1])
+                URI = url.replace('ss://', '').split('@')
+                params = new URLSearchParams(URI[1].split('?')[1])
 
                 parseInfo.method = decode(URI[0])
                     .split(':')[0]
@@ -102,7 +106,7 @@ export default class SsUrl {
                     .split('#')[0]
                     .split(':')[0]
 
-                parseInfo.server_port = Number(URI[1] // TODO: Fix server port type
+                parseInfo.server_port = Number(URI[1]
                     .split('#')[0]
                     .split(':')[1]
                     .split('?')[0])
@@ -123,7 +127,6 @@ export default class SsUrl {
                     if (pluginRaramEncoded) {
 
                         parseInfo.plugin_param = decodeURIComponent(pluginRaramEncoded)
-
                             // "plugin=v2ray;" <<< path=/api/;host=sparrow.yolk.network;tls
                             .replace(`plugin=${parseInfo.plugin};`, '')
                     }
@@ -132,34 +135,24 @@ export default class SsUrl {
                 break;
             case 'ssr:': //==========[SSR]==========
 
-                // TODO: SSR Parse
+                URI = decode(url.replace('ssr://', '')).split(':')
+                params = new URLSearchParams(URI[5].split('/')[1])
+
+                parseInfo.server/*---------*/= URI[0]
+                parseInfo.server_port/*----*/= URI[1]
+                parseInfo.protocol/*-------*/= URI[2]
+                parseInfo.method/*---------*/= URI[3]
+                parseInfo.obfs/*-----------*/= decode(URI[4])
+                parseInfo.password/*-------*/= URI[5].split('/')[0]
+                parseInfo.name/*-----------*/= decode(params.get('remarks'))
+                parseInfo.obfs_param/*-----*/= decode(params.get('obfsparam'))
+                parseInfo.protocol_param/*-*/= decode(params.get('protoparam'))
+                parseInfo.group/*----------*/= decode(params.get('group'))
 
                 break
             default:
                 throw new TypeError('Uknown protocol ' + protocol)
         }
-
         return parseInfo
     }
-
 }
-
-//============[ TEST ]===============
-
-// const myUrl = SsUrl.genSS({
-//     server: '8.8.8.8',
-//     server_port: 2222,
-//     password: '0',
-//     method: 'chacha20',
-//     name: '123123'
-//     // obfs: 'obfs',
-//     // obfs_param: 'obfs_params arstars tars ',
-//     // protocol: 'proto'
-// })
-//
-// console.log('Generated url: \n', myUrl, '\n')
-//
-// const parsedMyUrl = SsUrl.parse(myUrl)
-//
-// console.log('Parsed url:', parsedMyUrl)
-// // console.log(decode('SVA6ODM4ODp2ZXJpZnlfc2ltcGxlOnRhYmxlOmh0dHBfcG9zdDpNVEl6TkRVMk56ZzVNQS8_b2Jmc3BhcmFtPWIySm1jM0JoY21GdCZwcm90b3BhcmFtPWNISnZkRzl3WVhKaGJRJnJlbWFya3M9VGtGTlJRJmdyb3VwPVIxSlBWVkE'))
