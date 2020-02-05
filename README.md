@@ -59,14 +59,14 @@ console.log(myUrl)
 
 ### Parse links
 
-For both links, you can use `.parse()` method, what returns an object with parameters.
+For both links, you can use `.parseSS()` and `.parseSSR()` method, what returns an object with parameters.
 
 #### SS links
 
 ```js
 const myUrl = 'ss://YWVzLTI1Ni1jZmI6bXlwYXNzd29yZA==@my_server_ip:8388#my%20server'
 
-const myUrlParsed = ssUrl.parse(myUrl)
+const myUrlParsed = ssUrl.parseSS(myUrl)
 console.log(myUrlParsed)
 /*{
   method: 'aes-256-cfb',
@@ -82,7 +82,7 @@ console.log(myUrlParsed)
 ```js
 const myUrl = 'ssr://NzcuODguOC44OjgzODg6cGxhaW46Y2hhY2hhMjA6YUhSMGNGOXphVzF3YkdVPTpteXNlY3JldHBhc3N3b3JkMTIzLz9vYmZzcGFyYW09YzI5dFpYQmhjbUZ0Y3c9PSZwcm90b3BhcmFtPSZyZW1hcmtzPWJYa2djMlZ5ZG1WeSZncm91cD1UWGtnYzJWeWRtVnlJR3hwYzNRPQ=='
 
-const myUrlParsed = ssUrl.parse(myUrl)
+const myUrlParsed = ssUrl.parseSSR(myUrl)
 console.log(myUrlParsed)
 /*
 {
@@ -100,26 +100,36 @@ console.log(myUrlParsed)
 */
 ```
 
-<!--
 #### Advanced
 
-You can use 
+You can import configs type using typescript
 
+```typescript
+import { SsConfig, SsrConfig } from 'shadowsocks-link-generator'
 ```
-const myUrl = ssUrl.genSSR({
-  server: '77.88.8.8',
-  server_port: '8388',
-  protocol: 'plain',
-  method: 'chacha20',
-  obfs: 'http_simple',
-  password: 'mysecretpassword123',
-  name: 'my server',
-  obfs_param: 'someparams',
-  protocol_param: '',
-  group: 'My server list'
-})
 
-console.log(myUrl)
-// ssr://VG90YWwgY29udHJvbCBvZjp0aGUgSW50ZXJuZXQgaW4gQ2hpbmE6aGluZGVyczp0aGUgZGV2ZWxvcG1lbnQ6YjJZZ2RHaGxJR2RzYjJKaGJBPT06SW50ZXJuZXQgY29tbXVuaXR5Li8/b2Jmc3BhcmFtPWRHOGdZbmx3WVhOeklIUm9aU0JtYVhKbGQyRnNiQT09JnByb3RvcGFyYW09VEdsMlpTQm5iRzlpWVd4c2VTdz0mcmVtYXJrcz1WWE5sSUhSdmIyeHomZ3JvdXA9Ym05MElHeHZZMkZzYkhrdQ==
+```typescript
+type SsConfig = {
+    server: string
+    server_port: number
+    password: string
+    method: string
+    name?: string
+    plugin?: string
+    plugin_param?: string
+}
+
+type SsrConfig = {
+    server: string
+    server_port: number
+    password: string
+    method: string
+    name?: string
+    protocol: string
+    protocol_param?: string
+    obfs: string
+    obfs_param?: string
+    group?: string
+}
 ```
--->
+
