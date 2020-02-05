@@ -1,9 +1,11 @@
 # shadowsocks-link-generator
-Node.js ligthweight module for generating and parsing shadosocks links. No dependencies.
+Node.js ligthweight module for generating and parsing shadosocks links with no dependencies.
 
 ## Install
 ```sh
 npm install shadowsocks-link-generator
+# Or
+yarn add shadowsocks-link-generator
 ```
 
 ## Usage
@@ -11,10 +13,9 @@ npm install shadowsocks-link-generator
 Initialize new intstance
 ```js
 const ssUrl = require('shadowsocks-link-generator')
+// If use typescript or ESM
+import ssUrl from 'shadowsocks-link-generator'
 ```
-<!-- // Or use ES6 modules
-import SsUrl from 'shadowsocks-link-generator' -->
-
 ### Generate new shadosocks url
 
 Use `.genSS()` with shadowsocks parameters, what returns full ss link.
@@ -83,7 +84,8 @@ const myUrl = 'ssr://NzcuODguOC44OjgzODg6cGxhaW46Y2hhY2hhMjA6YUhSMGNGOXphVzF3Ykd
 
 const myUrlParsed = ssUrl.parse(myUrl)
 console.log(myUrlParsed)
-/*{
+/*
+{
   server: '77.88.8.8',
   server_port: '8388',
   protocol: 'plain',
@@ -94,21 +96,17 @@ console.log(myUrlParsed)
   obfs_param: 'someparams',
   protocol_param: '',
   group: 'My server list'
-}*/
+}
+*/
 ```
 
-## Advanced
+<!--
+#### Advanced
 
-You can use this module like a parent class. To use this methods in your class.
+You can use 
 
-```js
-const SsUrlMethods = require('shadowsocks-link-generator')
-
-class Something extends SsUrlMethods {
-  // blah blah blah...
-}
-
-const myUrl = Something.genSSR({
+```
+const myUrl = ssUrl.genSSR({
   server: '77.88.8.8',
   server_port: '8388',
   protocol: 'plain',
@@ -124,3 +122,4 @@ const myUrl = Something.genSSR({
 console.log(myUrl)
 // ssr://VG90YWwgY29udHJvbCBvZjp0aGUgSW50ZXJuZXQgaW4gQ2hpbmE6aGluZGVyczp0aGUgZGV2ZWxvcG1lbnQ6YjJZZ2RHaGxJR2RzYjJKaGJBPT06SW50ZXJuZXQgY29tbXVuaXR5Li8/b2Jmc3BhcmFtPWRHOGdZbmx3WVhOeklIUm9aU0JtYVhKbGQyRnNiQT09JnByb3RvcGFyYW09VEdsMlpTQm5iRzlpWVd4c2VTdz0mcmVtYXJrcz1WWE5sSUhSdmIyeHomZ3JvdXA9Ym05MElHeHZZMkZzYkhrdQ==
 ```
+-->
