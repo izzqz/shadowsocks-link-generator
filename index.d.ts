@@ -5,11 +5,11 @@ interface Ishadowsocks {
     method: string;
     name?: string;
 }
-interface IssConfig extends Ishadowsocks {
+export interface SsConfig extends Ishadowsocks {
     plugin?: string;
     plugin_param?: string;
 }
-interface IssrConfig extends Ishadowsocks {
+export interface SsrConfig extends Ishadowsocks {
     protocol: string;
     protocol_param?: string;
     obfs: string;
@@ -17,9 +17,9 @@ interface IssrConfig extends Ishadowsocks {
     group?: string;
 }
 export default class SsUrl {
-    static genSS(config: IssConfig): string;
-    static genSSR(config: IssrConfig): string;
-    static parse(url: string): object;
-    static parseSS(url: string): IssConfig;
+    static genSS(config: SsConfig): string;
+    static genSSR(config: SsrConfig): string;
+    static parseSS(url: string): SsConfig;
+    static parseSSR(url: string): SsrConfig;
 }
 export {};

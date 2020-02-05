@@ -8,26 +8,17 @@ interface Ishadowsocks {
     name?: string
 }
 
-interface IssConfig extends Ishadowsocks {
+export interface SsConfig extends Ishadowsocks {
     plugin?: string,
     plugin_param?: string,
 }
 
-interface IssrConfig extends Ishadowsocks {
+export interface SsrConfig extends Ishadowsocks {
     protocol: string,
     protocol_param?: string,
     obfs: string,
     obfs_param?: string,
     group?: string
-}
-
-/**
- * FIXME
- * TS2741: Property 'server_port' is missing in type '{}' but required in type 'stringMap'.
- */
-type stringMap =  {
-    server_port?: number
-    [key: string]: string | number
 }
 
 class base64 {
@@ -49,7 +40,7 @@ class base64 {
 const { encode, decode } = base64
 
 export default class SsUrl {
-    static genSS(config: IssConfig): string {
+    static genSS(config: SsConfig): string {
 
         const settings: string = `${encode(`${config.method}:${config.password}`)}`
         const hostname: string = `${config.server}:${config.server_port}`
@@ -72,7 +63,7 @@ export default class SsUrl {
         return `ss://${settings}@${hostname}${plugin}${name}`
     }
 
-    static genSSR(config: IssrConfig): string {
+    static genSSR(config: SsrConfig): string {
 
         const hostname: string = `${config.server}:${config.server_port}`
         const settings: string = `${config.protocol}:${config.method}:${encode(config.obfs)}:${config.password}`
@@ -87,54 +78,21 @@ export default class SsUrl {
         return 'ssr://' + encode(URI)
     }
 
-    static parse(url: string): object {
-
-        const protocol: string = new URL(url).protocol
-
-        let parsedURL: stringMap = {}
-        let URI: string[]
-        let params: URLSearchParams
-
-        switch (protocol) {
-
-            case 'ssr:': //==========[SSR]==========
-
-                URI = decode(url.replace('ssr://', '')).split(':')
-                params = new URLSearchParams(URI[5].split('/')[1])
-
-                parsedURL.server/*---------*/= URI[0]
-                parsedURL.server_port/*----*/= Number(URI[1])
-                parsedURL.protocol/*-------*/= URI[2]
-                parsedURL.method/*---------*/= URI[3]
-                parsedURL.obfs/*-----------*/= decode(URI[4])
-                parsedURL.password/*-------*/= URI[5].split('/')[0]
-                parsedURL.name/*-----------*/= decode(params.get('remarks'))
-                parsedURL.obfs_param/*-----*/= decode(params.get('obfsparam'))
-                parsedURL.protocol_param/*-*/= decode(params.get('protoparam'))
-                parsedURL.group/*----------*/= decode(params.get('group'))
-
-                break
-            default:
-                throw new TypeError('Uknown protocol ' + protocol)
-        }
-        return parsedURL
-    }
-
-    static parseSS(url: string): IssConfig {
+    static parseSS(url: string): SsConfig {
         const URI = url.replace('ss://', '').split('@')
         const params = new URLSearchParams(URI[1].split('?')[1])
-        const parsedURL: IssConfig = {
-            method: decode(URI[0])
+        const parsedURL: SsConfig = {
+            method:/*------*/ decode(URI[0])
                 .split(':')[0],
 
-            password: decode(URI[0])
+            password:/*----*/ decode(URI[0])
                 .split(':')[1],
 
-            server: URI[1]
+            server:/*------*/ URI[1]
                 .split('#')[0]
                 .split(':')[0],
 
-            server_port: Number(URI[1]
+            server_port:/*-*/ Number(URI[1]
                 .split('#')[0]
                 .split(':')[1]
                 .split('?')[0])
@@ -160,5 +118,22 @@ export default class SsUrl {
         }
 
         return parsedURL
+    }
+
+    static parseSSR(url: string): SsrConfig {
+        const URI = decode(url.replace('ssr://', '')).split(':')
+        const params = new URLSearchParams(URI[5].split('/')[1])
+        return {
+            server:/*---------*/ URI[0],
+            server_port:/*----*/ Number(URI[1]),
+            protocol:/*-------*/ URI[2],
+            method:/*---------*/ URI[3],
+            obfs:/*-----------*/ decode(URI[4]),
+            password:/*-------*/ URI[5].split('/')[0],
+            name:/*-----------*/ decode(params.get('remarks')),
+            obfs_param:/*-----*/ decode(params.get('obfsparam')),
+            protocol_param:/*-*/ decode(params.get('protoparam')),
+            group:/*----------*/ decode(params.get('group'))
+        }
     }
 }
