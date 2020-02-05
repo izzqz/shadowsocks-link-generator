@@ -20,5 +20,6 @@ export default class SsUrl {
     static genSS(config: IssConfig): string;
     static genSSR(config: IssrConfig): string;
     static parse(url: string): object;
+    static parseSS(url: string): IssConfig;
 }
 export {};

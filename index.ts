@@ -91,73 +91,74 @@ export default class SsUrl {
 
         const protocol: string = new URL(url).protocol
 
-        let parseInfo: stringMap = {}
+        let parsedURL: stringMap = {}
         let URI: string[]
         let params: URLSearchParams
 
         switch (protocol) {
-            case 'ss:': //==========[SS]==========
 
-                URI = url.replace('ss://', '').split('@')
-                params = new URLSearchParams(URI[1].split('?')[1])
-
-                parseInfo.method = decode(URI[0])
-                    .split(':')[0]
-
-                parseInfo.password = decode(URI[0])
-                    .split(':')[1]
-
-                parseInfo.server = URI[1]
-                    .split('#')[0]
-                    .split(':')[0]
-
-                parseInfo.server_port = Number(URI[1]
-                    .split('#')[0]
-                    .split(':')[1]
-                    .split('?')[0])
-
-
-                const name = URI[1].split('#')[1]
-                if (name) parseInfo.name = decodeURI(name)
-
-
-                if (params.has('plugin')) {
-
-                    parseInfo.plugin = params.get('plugin')
-                        .split(';')[0]
-
-                    const pluginRaramEncoded: string = URI[1].split('?')[1]
-                        .split('#')[0]
-
-                    if (pluginRaramEncoded) {
-
-                        parseInfo.plugin_param = decodeURIComponent(pluginRaramEncoded)
-                            // "plugin=v2ray;" <<< path=/api/;host=sparrow.yolk.network;tls
-                            .replace(`plugin=${parseInfo.plugin};`, '')
-                    }
-                }
-
-                break;
             case 'ssr:': //==========[SSR]==========
 
                 URI = decode(url.replace('ssr://', '')).split(':')
                 params = new URLSearchParams(URI[5].split('/')[1])
 
-                parseInfo.server/*---------*/= URI[0]
-                parseInfo.server_port/*----*/= Number(URI[1])
-                parseInfo.protocol/*-------*/= URI[2]
-                parseInfo.method/*---------*/= URI[3]
-                parseInfo.obfs/*-----------*/= decode(URI[4])
-                parseInfo.password/*-------*/= URI[5].split('/')[0]
-                parseInfo.name/*-----------*/= decode(params.get('remarks'))
-                parseInfo.obfs_param/*-----*/= decode(params.get('obfsparam'))
-                parseInfo.protocol_param/*-*/= decode(params.get('protoparam'))
-                parseInfo.group/*----------*/= decode(params.get('group'))
+                parsedURL.server/*---------*/= URI[0]
+                parsedURL.server_port/*----*/= Number(URI[1])
+                parsedURL.protocol/*-------*/= URI[2]
+                parsedURL.method/*---------*/= URI[3]
+                parsedURL.obfs/*-----------*/= decode(URI[4])
+                parsedURL.password/*-------*/= URI[5].split('/')[0]
+                parsedURL.name/*-----------*/= decode(params.get('remarks'))
+                parsedURL.obfs_param/*-----*/= decode(params.get('obfsparam'))
+                parsedURL.protocol_param/*-*/= decode(params.get('protoparam'))
+                parsedURL.group/*----------*/= decode(params.get('group'))
 
                 break
             default:
                 throw new TypeError('Uknown protocol ' + protocol)
         }
-        return parseInfo
+        return parsedURL
+    }
+
+    static parseSS(url: string): IssConfig {
+        const URI = url.replace('ss://', '').split('@')
+        const params = new URLSearchParams(URI[1].split('?')[1])
+        const parsedURL: IssConfig = {
+            method: decode(URI[0])
+                .split(':')[0],
+
+            password: decode(URI[0])
+                .split(':')[1],
+
+            server: URI[1]
+                .split('#')[0]
+                .split(':')[0],
+
+            server_port: Number(URI[1]
+                .split('#')[0]
+                .split(':')[1]
+                .split('?')[0])
+        }
+
+        const name = URI[1].split('#')[1]
+        if (name) parsedURL.name = decodeURI(name)
+
+        if (params.has('plugin')) {
+
+            parsedURL.plugin = params.get('plugin')
+                .split(';')[0]
+
+            const pluginRaramEncoded: string = URI[1].split('?')[1]
+                .split('#')[0]
+
+            if (pluginRaramEncoded) {
+
+                parsedURL.plugin_param = decodeURIComponent(pluginRaramEncoded)
+                    // "plugin=v2ray;" <<< path=/v2ray/;host=example.com;tls
+                    .replace(`plugin=${parsedURL.plugin};`, '')
+            }
+        }
+
+        return parsedURL
     }
 }
