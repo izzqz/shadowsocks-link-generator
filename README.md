@@ -1,4 +1,9 @@
 # shadowsocks-link-generator
+![npm](https://img.shields.io/npm/v/shadowsocks-link-generator?style=flat-square)
+![NPM](https://img.shields.io/npm/l/shadowsocks-link-generator?style=flat-square)
+![npm type definitions](https://img.shields.io/npm/types/shadowsocks-link-generator?style=flat-square)
+
+
 Node.js ligthweight module for generating and parsing shadosocks links with no dependencies.
 
 ## Install
