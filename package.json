@@ -24,12 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/DrZZQ/shadowsocks-link-generator.git"
+    "url": "https://github.com/ZZZZZZQQQQQQ/shadowsocks-link-generator.git"
   },
-  "bugs": {
-    "url": "https://github.com/DrZZQ/shadowsocks-link-generator/issues"
-  },
-  "homepage": "https://github.com/DrZZQ/shadowsocks-link-generator#readme",
+  "homepage": "https://github.com/ZZZZZZQQQQQQ/shadowsocks-link-generator.git",
   "description": "Ligthweight module for generating and parsing shadowsocks link with no dependencies and TypeScript support.",
   "license": "MIT"
 }
